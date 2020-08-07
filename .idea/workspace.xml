@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="be1d2b8c-9d31-4f3b-8023-9daf64f7783c" name="Default Changelist" comment="Initial project" />
+    <list default="true" id="be1d2b8c-9d31-4f3b-8023-9daf64f7783c" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -22,6 +24,12 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
   </component>
   <component name="RecentsManager">
@@ -48,7 +56,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1596792763113</updated>
-      <workItem from="1596792770095" duration="1183000" />
+      <workItem from="1596792770095" duration="2568000" />
     </task>
     <task id="LOCAL-00001" summary="Initial project">
       <created>1596793503129</created>
@@ -57,7 +65,14 @@
       <option name="project" value="LOCAL" />
       <updated>1596793503129</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Initial project">
+      <created>1596794014068</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1596794014069</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -72,17 +87,25 @@
       <screen x="0" y="0" width="1920" height="1053" />
     </state>
     <state x="843" y="402" width="229" height="247" key="#Notifications/0.0.1920.1053@0.0.1920.1053" timestamp="1596793624853" />
-    <state x="507" y="99" width="901" height="853" key="CommitChangelistDialog2" timestamp="1596793502838">
+    <state x="507" y="99" width="901" height="853" key="CommitChangelistDialog2" timestamp="1596794013971">
       <screen x="0" y="0" width="1920" height="1053" />
     </state>
-    <state x="507" y="99" width="901" height="853" key="CommitChangelistDialog2/0.0.1920.1053@0.0.1920.1053" timestamp="1596793502838" />
+    <state x="507" y="99" width="901" height="853" key="CommitChangelistDialog2/0.0.1920.1053@0.0.1920.1053" timestamp="1596794013971" />
+    <state x="743" y="285" width="430" height="481" key="FileChooserDialogImpl" timestamp="1596793899650">
+      <screen x="0" y="0" width="1920" height="1053" />
+    </state>
+    <state x="743" y="285" width="430" height="481" key="FileChooserDialogImpl/0.0.1920.1053@0.0.1920.1053" timestamp="1596793899650" />
     <state x="464" y="162" key="SettingsEditor" timestamp="1596793620285">
       <screen x="0" y="0" width="1920" height="1053" />
     </state>
     <state x="464" y="162" key="SettingsEditor/0.0.1920.1053@0.0.1920.1053" timestamp="1596793620285" />
-    <state x="555" y="250" width="806" height="551" key="Vcs.Push.Dialog.v2" timestamp="1596793522648">
+    <state x="555" y="250" width="806" height="551" key="Vcs.Push.Dialog.v2" timestamp="1596794016674">
       <screen x="0" y="0" width="1920" height="1053" />
     </state>
-    <state x="555" y="250" width="806" height="551" key="Vcs.Push.Dialog.v2/0.0.1920.1053@0.0.1920.1053" timestamp="1596793522648" />
+    <state x="555" y="250" width="806" height="551" key="Vcs.Push.Dialog.v2/0.0.1920.1053@0.0.1920.1053" timestamp="1596794016674" />
+    <state x="376" y="232" width="1163" height="587" key="new project wizard" timestamp="1596794667512">
+      <screen x="0" y="0" width="1920" height="1053" />
+    </state>
+    <state x="376" y="232" width="1163" height="587" key="new project wizard/0.0.1920.1053@0.0.1920.1053" timestamp="1596794667512" />
   </component>
 </project>
