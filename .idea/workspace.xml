@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="be1d2b8c-9d31-4f3b-8023-9daf64f7783c" name="Default Changelist" comment="Initial project" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1flVepVbSJ35Wo0OQoEMAfVM4Th" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/java/com/maz/beer/order/service" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="MsscBeerOrderServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="mssc-beer-order-service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.maz.beer.order.service.MsscBeerOrderServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="be1d2b8c-9d31-4f3b-8023-9daf64f7783c" name="Default Changelist" comment="" />
+      <created>1596792763113</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1596792763113</updated>
+      <workItem from="1596792770095" duration="1183000" />
+    </task>
+    <task id="LOCAL-00001" summary="Initial project">
+      <created>1596793503129</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1596793503129</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="2" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Initial project" />
+    <option name="LAST_COMMIT_MESSAGE" value="Initial project" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="843" y="402" width="229" height="247" key="#Notifications" timestamp="1596793624853">
+      <screen x="0" y="0" width="1920" height="1053" />
+    </state>
+    <state x="843" y="402" width="229" height="247" key="#Notifications/0.0.1920.1053@0.0.1920.1053" timestamp="1596793624853" />
+    <state x="507" y="99" width="901" height="853" key="CommitChangelistDialog2" timestamp="1596793502838">
+      <screen x="0" y="0" width="1920" height="1053" />
+    </state>
+    <state x="507" y="99" width="901" height="853" key="CommitChangelistDialog2/0.0.1920.1053@0.0.1920.1053" timestamp="1596793502838" />
+    <state x="464" y="162" key="SettingsEditor" timestamp="1596793620285">
+      <screen x="0" y="0" width="1920" height="1053" />
+    </state>
+    <state x="464" y="162" key="SettingsEditor/0.0.1920.1053@0.0.1920.1053" timestamp="1596793620285" />
+    <state x="555" y="250" width="806" height="551" key="Vcs.Push.Dialog.v2" timestamp="1596793522648">
+      <screen x="0" y="0" width="1920" height="1053" />
+    </state>
+    <state x="555" y="250" width="806" height="551" key="Vcs.Push.Dialog.v2/0.0.1920.1053@0.0.1920.1053" timestamp="1596793522648" />
+  </component>
+</project>
