@@ -4,7 +4,6 @@
     <list default="true" id="be1d2b8c-9d31-4f3b-8023-9daf64f7783c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/maz/beer/order/service/web/mappers/BeerOrderMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/maz/beer/order/service/web/mappers/BeerOrderMapper.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -94,7 +93,7 @@
       <workItem from="1596928467669" duration="3493000" />
       <workItem from="1596959710596" duration="2571000" />
       <workItem from="1596976850083" duration="654000" />
-      <workItem from="1596980046055" duration="420000" />
+      <workItem from="1596980046055" duration="1768000" />
     </task>
     <task id="LOCAL-00001" summary="Initial project">
       <created>1596793503129</created>
@@ -138,7 +137,14 @@
       <option name="project" value="LOCAL" />
       <updated>1596962531417</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Update pom to use BOM">
+      <created>1596980490970</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1596980490970</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -150,7 +156,8 @@
     <MESSAGE value="Update server port. closes #1" />
     <MESSAGE value="Corrected UPC in saving. closes #2" />
     <MESSAGE value="Enhanced Beer Order Line with Beer info. closes #3" />
-    <option name="LAST_COMMIT_MESSAGE" value="Enhanced Beer Order Line with Beer info. closes #3" />
+    <MESSAGE value="Update pom to use BOM" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update pom to use BOM" />
   </component>
   <component name="WindowStateProjectService">
     <state x="600" y="283" width="229" height="174" key="#Notifications" timestamp="1596928292202">
@@ -176,35 +183,35 @@
       <screen x="0" y="0" width="1366" height="741" />
     </state>
     <state x="416" y="121" width="530" height="497" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1366.741@0.0.1366.741" timestamp="1596929377214" />
-    <state x="507" y="99" width="800" height="601" key="CommitChangelistDialog2" timestamp="1596962531221">
-      <screen x="0" y="0" width="1920" height="1053" />
+    <state x="361" y="70" width="800" height="601" key="CommitChangelistDialog2" timestamp="1596980490802">
+      <screen x="0" y="0" width="1366" height="741" />
     </state>
-    <state x="361" y="70" width="800" height="601" key="CommitChangelistDialog2/0.0.1366.741@0.0.1366.741" timestamp="1596928919311" />
+    <state x="361" y="70" width="800" height="601" key="CommitChangelistDialog2/0.0.1366.741@0.0.1366.741" timestamp="1596980490802" />
     <state x="507" y="99" width="901" height="853" key="CommitChangelistDialog2/0.0.1920.1053@0.0.1920.1053" timestamp="1596962531221" />
     <state x="529" y="201" width="312" height="339" key="FileChooserDialogImpl" timestamp="1596928449230">
       <screen x="0" y="0" width="1366" height="741" />
     </state>
     <state x="529" y="201" width="312" height="339" key="FileChooserDialogImpl/0.0.1366.741@0.0.1366.741" timestamp="1596928449230" />
     <state x="743" y="285" width="430" height="481" key="FileChooserDialogImpl/0.0.1920.1053@0.0.1920.1053" timestamp="1596793899650" />
-    <state width="1324" height="199" key="GridCell.Tab.0.bottom" timestamp="1596980211161">
+    <state width="1324" height="199" key="GridCell.Tab.0.bottom" timestamp="1596984603097">
       <screen x="0" y="0" width="1366" height="741" />
     </state>
-    <state width="1324" height="199" key="GridCell.Tab.0.bottom/0.0.1366.741@0.0.1366.741" timestamp="1596980211161" />
+    <state width="1324" height="199" key="GridCell.Tab.0.bottom/0.0.1366.741@0.0.1366.741" timestamp="1596984603097" />
     <state width="1878" height="313" key="GridCell.Tab.0.bottom/0.0.1920.1053@0.0.1920.1053" timestamp="1596962290859" />
-    <state width="1324" height="199" key="GridCell.Tab.0.center" timestamp="1596980211160">
+    <state width="1324" height="199" key="GridCell.Tab.0.center" timestamp="1596984603096">
       <screen x="0" y="0" width="1366" height="741" />
     </state>
-    <state width="1324" height="199" key="GridCell.Tab.0.center/0.0.1366.741@0.0.1366.741" timestamp="1596980211160" />
+    <state width="1324" height="199" key="GridCell.Tab.0.center/0.0.1366.741@0.0.1366.741" timestamp="1596984603096" />
     <state width="1878" height="313" key="GridCell.Tab.0.center/0.0.1920.1053@0.0.1920.1053" timestamp="1596962290859" />
-    <state width="1324" height="199" key="GridCell.Tab.0.left" timestamp="1596980211159">
+    <state width="1324" height="199" key="GridCell.Tab.0.left" timestamp="1596984603095">
       <screen x="0" y="0" width="1366" height="741" />
     </state>
-    <state width="1324" height="199" key="GridCell.Tab.0.left/0.0.1366.741@0.0.1366.741" timestamp="1596980211159" />
+    <state width="1324" height="199" key="GridCell.Tab.0.left/0.0.1366.741@0.0.1366.741" timestamp="1596984603095" />
     <state width="1878" height="313" key="GridCell.Tab.0.left/0.0.1920.1053@0.0.1920.1053" timestamp="1596962290858" />
-    <state width="1324" height="199" key="GridCell.Tab.0.right" timestamp="1596980211160">
+    <state width="1324" height="199" key="GridCell.Tab.0.right" timestamp="1596984603096">
       <screen x="0" y="0" width="1366" height="741" />
     </state>
-    <state width="1324" height="199" key="GridCell.Tab.0.right/0.0.1366.741@0.0.1366.741" timestamp="1596980211160" />
+    <state width="1324" height="199" key="GridCell.Tab.0.right/0.0.1366.741@0.0.1366.741" timestamp="1596984603096" />
     <state width="1878" height="313" key="GridCell.Tab.0.right/0.0.1920.1053@0.0.1920.1053" timestamp="1596962290859" />
     <state width="1878" height="313" key="GridCell.Tab.1.bottom" timestamp="1596962290860">
       <screen x="0" y="0" width="1920" height="1053" />
@@ -231,10 +238,10 @@
     </state>
     <state x="330" y="0" width="1030" height="738" key="SettingsEditor/0.0.1366.741@0.0.1366.741" timestamp="1596928416863" />
     <state x="464" y="162" key="SettingsEditor/0.0.1920.1053@0.0.1920.1053" timestamp="1596793620285" />
-    <state x="555" y="250" width="806" height="551" key="Vcs.Push.Dialog.v2" timestamp="1596962533481">
-      <screen x="0" y="0" width="1920" height="1053" />
+    <state x="395" y="176" width="806" height="525" key="Vcs.Push.Dialog.v2" timestamp="1596980491805">
+      <screen x="0" y="0" width="1366" height="741" />
     </state>
-    <state x="395" y="176" key="Vcs.Push.Dialog.v2/0.0.1366.741@0.0.1366.741" timestamp="1596928920628" />
+    <state x="395" y="176" width="806" height="525" key="Vcs.Push.Dialog.v2/0.0.1366.741@0.0.1366.741" timestamp="1596980491805" />
     <state x="555" y="250" width="806" height="551" key="Vcs.Push.Dialog.v2/0.0.1920.1053@0.0.1920.1053" timestamp="1596962533481" />
     <state x="376" y="232" width="1163" height="587" key="new project wizard" timestamp="1596794667512">
       <screen x="0" y="0" width="1920" height="1053" />
