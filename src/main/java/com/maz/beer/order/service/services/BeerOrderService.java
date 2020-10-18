@@ -3,8 +3,8 @@
 package com.maz.beer.order.service.services;
 
 
-import com.maz.beer.order.service.web.model.BeerOrderDto;
-import com.maz.beer.order.service.web.model.BeerOrderPagedList;
+import com.maz.brewery.model.BeerOrderDto;
+import com.maz.brewery.model.BeerOrderPagedList;
 import org.springframework.data.domain.Pageable;
 
 import java.util.UUID;

@@ -3,8 +3,8 @@
 package com.maz.beer.order.service.web.controllers;
 
 import com.maz.beer.order.service.services.BeerOrderService;
-import com.maz.beer.order.service.web.model.BeerOrderDto;
-import com.maz.beer.order.service.web.model.BeerOrderPagedList;
+import com.maz.brewery.model.BeerOrderDto;
+import com.maz.brewery.model.BeerOrderPagedList;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

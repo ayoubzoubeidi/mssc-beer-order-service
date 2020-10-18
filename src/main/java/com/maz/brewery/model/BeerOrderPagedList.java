@@ -1,6 +1,6 @@
 
 
-package com.maz.beer.order.service.web.model;
+package com.maz.brewery.model;
 
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;

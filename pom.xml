@@ -9,6 +9,17 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
+    <organization>
+        <name>ZBIDI INC</name>
+    </organization>
+
+    <developers>
+        <developer>
+            <name>Mohamed Ayoub Zoubeidi</name>
+            <organization>ZBIDI INC</organization>
+        </developer>
+    </developers>
+
     <groupId>com.maz</groupId>
     <artifactId>mssc-beer-order-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>

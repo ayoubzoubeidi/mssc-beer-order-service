@@ -1,6 +1,6 @@
 package com.maz.beer.order.service.services.beer;
 
-import com.maz.beer.order.service.web.model.BeerDto;
+import com.maz.brewery.model.BeerDto;
 
 import java.util.Optional;
 import java.util.UUID;

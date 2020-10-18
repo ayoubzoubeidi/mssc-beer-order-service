@@ -1,6 +1,6 @@
 package com.maz.beer.order.service.services.beer;
 
-import com.maz.beer.order.service.web.model.BeerDto;
+import com.maz.brewery.model.BeerDto;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Configuration;

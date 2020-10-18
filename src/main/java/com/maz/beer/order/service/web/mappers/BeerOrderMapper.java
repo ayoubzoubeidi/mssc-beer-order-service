@@ -3,7 +3,7 @@
 package com.maz.beer.order.service.web.mappers;
 
 import com.maz.beer.order.service.domain.BeerOrder;
-import com.maz.beer.order.service.web.model.BeerOrderDto;
+import com.maz.brewery.model.BeerOrderDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
