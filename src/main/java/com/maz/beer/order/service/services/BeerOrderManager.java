@@ -7,4 +7,5 @@ import java.util.UUID;
 public interface BeerOrderManager {
     BeerOrder newBeerOrder(BeerOrder beerOrder);
     void processValidationResult(UUID beerOrderId, Boolean isValid);
+    void processAllocationResult(UUID beerOrderId, Boolean allocationError, Boolean pendingInventory);
 }

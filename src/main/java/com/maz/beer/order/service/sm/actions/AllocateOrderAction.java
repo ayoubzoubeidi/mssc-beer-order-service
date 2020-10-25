@@ -6,7 +6,7 @@ import com.maz.beer.order.service.domain.BeerOrderEventEnum;
 import com.maz.beer.order.service.domain.BeerOrderStatusEnum;
 import com.maz.beer.order.service.repositories.BeerOrderRepository;
 import com.maz.beer.order.service.web.mappers.BeerOrderMapper;
-import com.maz.brewery.model.events.ValidateBeerOrderRequest;
+import com.maz.brewery.model.events.AllocateOrderRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
@@ -21,7 +21,7 @@ import static com.maz.beer.order.service.services.BeerOrderManagerImpl.ORDER_ID_
 @Slf4j
 @RequiredArgsConstructor
 @Configuration
-public class ValidateOrderAction implements Action<BeerOrderStatusEnum, BeerOrderEventEnum>{
+public class AllocateOrderAction implements Action<BeerOrderStatusEnum, BeerOrderEventEnum> {
 
     private final BeerOrderRepository beerOrderRepository;
     private final BeerOrderMapper beerOrderMapper;
@@ -29,17 +29,15 @@ public class ValidateOrderAction implements Action<BeerOrderStatusEnum, BeerOrde
 
     @Override
     public void execute(StateContext<BeerOrderStatusEnum, BeerOrderEventEnum> context) {
-
         String orderId = (String) context.getMessageHeader(ORDER_ID_HEADER);
 
         log.debug("Sending order validation request for order id: " + orderId);
 
         BeerOrder beerOrder = beerOrderRepository.findOneById(UUID.fromString(orderId));
 
-        jmsTemplate.convertAndSend(JmsConfig.VALIDATE_ORDER_QUEUE,
-                new ValidateBeerOrderRequest(beerOrderMapper.beerOrderToDto(beerOrder)));
-
-        log.debug("Validation request for order id: " + orderId + " is sent");
-
+        jmsTemplate.convertAndSend(JmsConfig.ALLOCATE_ORDER_QUEUE,
+                AllocateOrderRequest.builder()
+                        .beerOrder(beerOrderMapper.beerOrderToDto(beerOrder))
+                        .build());
     }
 }

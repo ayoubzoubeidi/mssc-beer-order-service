@@ -46,13 +46,31 @@ public class BeerOrderManagerImpl implements BeerOrderManager {
 
         BeerOrderEventEnum event;
 
-        if (isValid)
+        if (isValid) {
             event = BeerOrderEventEnum.VALIDATION_PASSED;
+
+            BeerOrder validatedOrder = beerOrder = beerOrderRepository.findOneById(beerOrderId);
+
+            sendBeerOrderEvent(validatedOrder, BeerOrderEventEnum.ALLOCATE_ORDER);
+        }
         else {
             event = BeerOrderEventEnum.VALIDATION_FAILED;
         }
 
         sendBeerOrderEvent(beerOrder, event);
+
+    }
+
+    @Override
+    public void processAllocationResult(UUID beerOrderId, Boolean allocationError, Boolean pendingInventory) {
+
+        BeerOrder beerOrder = beerOrderRepository.findOneById(beerOrderId);
+
+        if (allocationError)
+            sendBeerOrderEvent(beerOrder, BeerOrderEventEnum.ALLOCATION_FAILED);
+        else if (pendingInventory)
+            sendBeerOrderEvent(beerOrder, BeerOrderEventEnum.ALLOCATION_NO_INVENTORY);
+        else sendBeerOrderEvent(beerOrder, BeerOrderEventEnum.ALLOCATION_SUCCESS);
 
     }
 
@@ -68,6 +86,7 @@ public class BeerOrderManagerImpl implements BeerOrderManager {
     }
 
     private StateMachine<BeerOrderStatusEnum, BeerOrderEventEnum> buildStateMachine(BeerOrder beerOrder) {
+
         StateMachine<BeerOrderStatusEnum, BeerOrderEventEnum> sm = stateMachineFactory.getStateMachine(beerOrder.getId());
 
         sm.stop();
