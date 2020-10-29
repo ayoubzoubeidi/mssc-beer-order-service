@@ -33,7 +33,7 @@ public class BeerOrderManagerImpl implements BeerOrderManager {
 
         BeerOrder savedBeerOrder = beerOrderRepository.save(beerOrder);
 
-        sendBeerOrderEvent(beerOrder, BeerOrderEventEnum.ALLOCATE_ORDER);
+        sendBeerOrderEvent(beerOrder, BeerOrderEventEnum.VALIDATE_ORDER);
 
         return savedBeerOrder;
     }
