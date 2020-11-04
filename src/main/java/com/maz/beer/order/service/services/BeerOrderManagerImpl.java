@@ -31,7 +31,7 @@ public class BeerOrderManagerImpl implements BeerOrderManager {
         beerOrder.setId(null);
         beerOrder.setOrderStatus(BeerOrderStatusEnum.NEW);
 
-        BeerOrder savedBeerOrder = beerOrderRepository.save(beerOrder);
+        BeerOrder savedBeerOrder = beerOrderRepository.saveAndFlush(beerOrder);
 
         sendBeerOrderEvent(beerOrder, BeerOrderEventEnum.VALIDATE_ORDER);
 
@@ -97,6 +97,8 @@ public class BeerOrderManagerImpl implements BeerOrderManager {
                     sma.addStateMachineInterceptor(beerOrderStatusInterceptor);
                 }
         );
+
+        sm.start();
 
         return sm;
     }

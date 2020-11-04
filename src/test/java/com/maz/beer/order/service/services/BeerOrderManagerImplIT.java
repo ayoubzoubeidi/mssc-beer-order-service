@@ -22,14 +22,17 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 
+import org.springframework.transaction.annotation.Transactional;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.Callable;
 
 import static com.github.jenspiegsa.wiremockextension.ManagedWireMockServer.with;
 import static com.github.tomakehurst.wiremock.client.WireMock.okJson;
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
+import static org.awaitility.Awaitility.await;
 import static org.jgroups.util.Util.assertEquals;
 import static org.jgroups.util.Util.assertNotNull;
 
@@ -74,6 +77,7 @@ public class BeerOrderManagerImplIT {
 
 
     @Test
+    @Transactional
     void testNewToAllocated() throws InterruptedException, JsonProcessingException {
 
         BeerDto beer = BeerDto.builder().upc("12345").build();
@@ -87,21 +91,25 @@ public class BeerOrderManagerImplIT {
 
         BeerOrder savedBeerOrder = beerOrderManager.newBeerOrder(beerOrder);
 
-        System.err.println(beerOrder.getOrderStatus());
+        await().until(waitStatusToChange(savedBeerOrder.getId(), BeerOrderStatusEnum.VALIDATION_PENDING));
 
-        Thread.sleep(5000);
+        BeerOrder order = beerOrderRepository.findOneById(savedBeerOrder.getId());
 
         assertNotNull(savedBeerOrder);
-        assertEquals(BeerOrderStatusEnum.VALIDATION_PENDING, beerOrder.getOrderStatus());
+        assertEquals(BeerOrderStatusEnum.VALIDATION_PENDING, order.getOrderStatus());
 
     }
 
+    public Callable<Boolean> waitStatusToChange(UUID beerId, BeerOrderStatusEnum beerOrderStatus) {
+        BeerOrder beerOrder = beerOrderRepository.findById(beerId).get();
+        return () -> beerOrder.getOrderStatus() == beerOrderStatus;
+    }
 
     public BeerOrder createBeerOrder() {
         BeerOrder beerOrder = BeerOrder.builder().customer(testCustomer).build();
 
         Set<BeerOrderLine> beerOrderLines = new HashSet<>();
-        beerOrderLines.add(BeerOrderLine.builder().beerId(beerId).build());
+        beerOrderLines.add(BeerOrderLine.builder().beerId(beerId).upc("12345").build());
 
         beerOrder.setBeerOrderLines(beerOrderLines);
 
