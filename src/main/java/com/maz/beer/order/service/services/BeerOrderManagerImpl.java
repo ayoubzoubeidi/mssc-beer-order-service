@@ -92,6 +92,14 @@ public class BeerOrderManagerImpl implements BeerOrderManager {
 
     }
 
+    @Transactional
+    @Override
+    public void processOrderPickedUp(BeerOrderDto beerOrderDto) {
+        beerOrderRepository.findById(beerOrderDto.getId()).ifPresentOrElse(beerOrder -> {
+            sendBeerOrderEvent(beerOrder, BeerOrderEventEnum.PICKED_UP);
+        }, () -> log.error("Order Not Found. Id: " + beerOrderDto.getId()));
+    }
+
     private void sendBeerOrderEvent(BeerOrder beerOrder, BeerOrderEventEnum event) {
 
 
