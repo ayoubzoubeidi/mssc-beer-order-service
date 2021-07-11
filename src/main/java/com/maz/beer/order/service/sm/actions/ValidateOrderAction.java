@@ -14,6 +14,7 @@ import org.springframework.jms.core.JmsTemplate;
 import org.springframework.statemachine.StateContext;
 import org.springframework.statemachine.action.Action;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import static com.maz.beer.order.service.services.BeerOrderManagerImpl.ORDER_ID_HEADER;
@@ -30,16 +31,17 @@ public class ValidateOrderAction implements Action<BeerOrderStatusEnum, BeerOrde
     @Override
     public void execute(StateContext<BeerOrderStatusEnum, BeerOrderEventEnum> context) {
 
-        String orderId = (String) context.getMessageHeader(ORDER_ID_HEADER);
+        String beerOrderId = (String) context.getMessage().getHeaders().get(ORDER_ID_HEADER);
+        Optional<BeerOrder> beerOrderOptional = beerOrderRepository.findById(UUID.fromString(beerOrderId));
 
-        log.info("Sending order validation request for order id: " + orderId);
+        beerOrderOptional.ifPresentOrElse(beerOrder -> {
+            jmsTemplate.convertAndSend(JmsConfig.VALIDATE_ORDER_QUEUE, ValidateBeerOrderRequest.builder()
+                    .beerOrder(beerOrderMapper.beerOrderToDto(beerOrder))
+                    .build());
+        }, () -> log.error("Order Not Found. Id: " + beerOrderId));
 
-        BeerOrder beerOrder = beerOrderRepository.findOneById(UUID.fromString(orderId));
-
-        jmsTemplate.convertAndSend(JmsConfig.VALIDATE_ORDER_QUEUE,
-                new ValidateBeerOrderRequest(beerOrderMapper.beerOrderToDto(beerOrder)));
-
-        log.info("Validation request for order id: " + orderId + " is sent");
-
+        log.debug("Sent Validation request to queue for order id " + beerOrderId);
     }
+
+
 }

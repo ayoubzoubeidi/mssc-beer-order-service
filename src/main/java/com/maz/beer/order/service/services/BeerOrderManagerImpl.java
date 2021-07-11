@@ -5,18 +5,24 @@ import com.maz.beer.order.service.domain.BeerOrderEventEnum;
 import com.maz.beer.order.service.domain.BeerOrderStatusEnum;
 import com.maz.beer.order.service.repositories.BeerOrderRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.statemachine.StateMachine;
 import org.springframework.statemachine.config.StateMachineFactory;
 import org.springframework.statemachine.support.DefaultStateMachineContext;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
 import java.util.UUID;
+
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class BeerOrderManagerImpl implements BeerOrderManager {
 
     public static final String ORDER_ID_HEADER = "beerOrderId";
@@ -29,11 +35,12 @@ public class BeerOrderManagerImpl implements BeerOrderManager {
     public BeerOrder newBeerOrder(BeerOrder beerOrder) {
 
         beerOrder.setId(null);
+
         beerOrder.setOrderStatus(BeerOrderStatusEnum.NEW);
 
         BeerOrder savedBeerOrder = beerOrderRepository.saveAndFlush(beerOrder);
 
-        sendBeerOrderEvent(beerOrder, BeerOrderEventEnum.VALIDATE_ORDER);
+        sendBeerOrderEvent(savedBeerOrder, BeerOrderEventEnum.VALIDATE_ORDER);
 
         return savedBeerOrder;
     }
@@ -42,39 +49,44 @@ public class BeerOrderManagerImpl implements BeerOrderManager {
     @Override
     public void processValidationResult(UUID beerOrderId, Boolean isValid) {
 
-        BeerOrder beerOrder = beerOrderRepository.findOneById(beerOrderId);
 
-        BeerOrderEventEnum event;
+        Optional<BeerOrder> beerOrderOptional = beerOrderRepository.findById(beerOrderId);
 
-        if (isValid) {
-            event = BeerOrderEventEnum.VALIDATION_PASSED;
+        beerOrderOptional.ifPresentOrElse(beerOrder -> {
+            if(isValid){
+                sendBeerOrderEvent(beerOrder, BeerOrderEventEnum.VALIDATION_PASSED);
 
-            BeerOrder validatedOrder = beerOrder = beerOrderRepository.findOneById(beerOrderId);
+                BeerOrder validatedOrder = beerOrderRepository.findById(beerOrderId).get();
 
-            sendBeerOrderEvent(validatedOrder, BeerOrderEventEnum.ALLOCATE_ORDER);
-        }
-        else {
-            event = BeerOrderEventEnum.VALIDATION_FAILED;
-        }
 
-        sendBeerOrderEvent(beerOrder, event);
+                sendBeerOrderEvent(validatedOrder, BeerOrderEventEnum.ALLOCATE_ORDER);
+
+            } else {
+                sendBeerOrderEvent(beerOrder, BeerOrderEventEnum.VALIDATION_FAILED);
+            }
+        }, () -> log.error("Order Not Found. Id: " + beerOrderId));
+
 
     }
 
+    @Transactional
     @Override
     public void processAllocationResult(UUID beerOrderId, Boolean allocationError, Boolean pendingInventory) {
 
-        BeerOrder beerOrder = beerOrderRepository.findOneById(beerOrderId);
+        Optional<BeerOrder> beerOrderOptional = beerOrderRepository.findById(beerOrderId);
 
-        if (allocationError)
-            sendBeerOrderEvent(beerOrder, BeerOrderEventEnum.ALLOCATION_FAILED);
-        else if (pendingInventory)
-            sendBeerOrderEvent(beerOrder, BeerOrderEventEnum.ALLOCATION_NO_INVENTORY);
-        else sendBeerOrderEvent(beerOrder, BeerOrderEventEnum.ALLOCATION_SUCCESS);
+        beerOrderOptional.ifPresentOrElse(beerOrder -> {
+            if (allocationError)
+                sendBeerOrderEvent(beerOrder, BeerOrderEventEnum.ALLOCATION_FAILED);
+            else if (pendingInventory)
+                sendBeerOrderEvent(beerOrder, BeerOrderEventEnum.ALLOCATION_NO_INVENTORY);
+            else sendBeerOrderEvent(beerOrder, BeerOrderEventEnum.ALLOCATION_SUCCESS);
+        }, () -> log.error("Order Not Found. Id: " + beerOrderId));
 
     }
 
     private void sendBeerOrderEvent(BeerOrder beerOrder, BeerOrderEventEnum event) {
+
 
         StateMachine<BeerOrderStatusEnum, BeerOrderEventEnum> sm = buildStateMachine(beerOrder);
 

@@ -33,7 +33,7 @@ public class AllocateOrderAction implements Action<BeerOrderStatusEnum, BeerOrde
 
         log.debug("Sending order validation request for order id: " + orderId);
 
-        BeerOrder beerOrder = beerOrderRepository.findOneById(UUID.fromString(orderId));
+        BeerOrder beerOrder = beerOrderRepository.getOne(UUID.fromString(orderId));
 
         jmsTemplate.convertAndSend(JmsConfig.ALLOCATE_ORDER_QUEUE,
                 AllocateOrderRequest.builder()
