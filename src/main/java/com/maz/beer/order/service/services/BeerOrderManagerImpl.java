@@ -4,6 +4,7 @@ import com.maz.beer.order.service.domain.BeerOrder;
 import com.maz.beer.order.service.domain.BeerOrderEventEnum;
 import com.maz.beer.order.service.domain.BeerOrderStatusEnum;
 import com.maz.beer.order.service.repositories.BeerOrderRepository;
+import com.maz.brewery.model.BeerOrderDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.Message;
@@ -58,7 +59,6 @@ public class BeerOrderManagerImpl implements BeerOrderManager {
 
                 BeerOrder validatedOrder = beerOrderRepository.findById(beerOrderId).get();
 
-
                 sendBeerOrderEvent(validatedOrder, BeerOrderEventEnum.ALLOCATE_ORDER);
 
             } else {
@@ -71,16 +71,23 @@ public class BeerOrderManagerImpl implements BeerOrderManager {
 
     @Transactional
     @Override
-    public void processAllocationResult(UUID beerOrderId, Boolean allocationError, Boolean pendingInventory) {
+    public void processAllocationResult(BeerOrderDto beerOrderDto, Boolean allocationError, Boolean pendingInventory) {
+
+        UUID beerOrderId = beerOrderDto.getId();
 
         Optional<BeerOrder> beerOrderOptional = beerOrderRepository.findById(beerOrderId);
 
         beerOrderOptional.ifPresentOrElse(beerOrder -> {
             if (allocationError)
                 sendBeerOrderEvent(beerOrder, BeerOrderEventEnum.ALLOCATION_FAILED);
-            else if (pendingInventory)
+            else if (pendingInventory) {
                 sendBeerOrderEvent(beerOrder, BeerOrderEventEnum.ALLOCATION_NO_INVENTORY);
-            else sendBeerOrderEvent(beerOrder, BeerOrderEventEnum.ALLOCATION_SUCCESS);
+                updateQuantityAllocated(beerOrderDto);
+            }
+            else {
+                sendBeerOrderEvent(beerOrder, BeerOrderEventEnum.ALLOCATION_SUCCESS);
+                updateQuantityAllocated(beerOrderDto);
+            }
         }, () -> log.error("Order Not Found. Id: " + beerOrderId));
 
     }
@@ -113,5 +120,30 @@ public class BeerOrderManagerImpl implements BeerOrderManager {
         sm.start();
 
         return sm;
+    }
+
+    private void updateQuantityAllocated(BeerOrderDto beerOrderDto) {
+
+        UUID beerOrderId = beerOrderDto.getId();
+
+        Optional<BeerOrder> beerOrderOptional = beerOrderRepository.findById(beerOrderId);
+
+        beerOrderOptional.ifPresentOrElse(beerOrder -> {
+
+            beerOrder.getBeerOrderLines().forEach(
+                    beerOrderLine -> {
+                        beerOrderDto.getBeerOrderLines().forEach(
+                                beerOrderLineDto -> {
+                                    if (beerOrderLine.getId().equals(beerOrderLineDto.getId()))
+                                        beerOrderLine.setQuantityAllocated(beerOrderLine.getQuantityAllocated());
+                                }
+                        );
+                    }
+            );
+
+            beerOrderRepository.saveAndFlush(beerOrder);
+
+        }, () -> log.error("Order Not Found. Id: " + beerOrderId));
+
     }
 }
