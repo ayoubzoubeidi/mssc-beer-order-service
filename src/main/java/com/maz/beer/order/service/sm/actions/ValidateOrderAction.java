@@ -22,7 +22,7 @@ import static com.maz.beer.order.service.services.BeerOrderManagerImpl.ORDER_ID_
 @Slf4j
 @RequiredArgsConstructor
 @Configuration
-public class ValidateOrderAction implements Action<BeerOrderStatusEnum, BeerOrderEventEnum>{
+public class ValidateOrderAction implements Action<BeerOrderStatusEnum, BeerOrderEventEnum> {
 
     private final BeerOrderRepository beerOrderRepository;
     private final BeerOrderMapper beerOrderMapper;
