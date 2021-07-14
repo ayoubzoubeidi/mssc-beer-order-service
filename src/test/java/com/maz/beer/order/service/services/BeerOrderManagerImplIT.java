@@ -179,6 +179,26 @@ public class BeerOrderManagerImplIT {
 
     }
 
+    @Test
+    void testFailedAllocation() throws JsonProcessingException{
+
+        BeerDto beerDto = BeerDto.builder().upc("12345").build();
+
+        wireMockServer.stubFor(WireMock.get(BeerServiceRestTemplate.BEER_UPC_PATH + "12345")
+                .willReturn(okJson(objectMapper.writeValueAsString(beerDto))));
+
+        BeerOrder beerOrder = createBeerOrder();
+
+        beerOrder.setCustomerRef("allocation exception");
+
+        BeerOrder savedBeerOrder = beerOrderManager.newBeerOrder(beerOrder);
+
+        await().untilAsserted(() -> {
+            BeerOrder foundOrder = beerOrderRepository.findById(savedBeerOrder.getId()).get();
+            assertEquals(BeerOrderStatusEnum.ALLOCATION_EXCEPTION, foundOrder.getOrderStatus());
+        });
+
+    }
 
     public BeerOrder createBeerOrder(){
         BeerOrder beerOrder = BeerOrder.builder()

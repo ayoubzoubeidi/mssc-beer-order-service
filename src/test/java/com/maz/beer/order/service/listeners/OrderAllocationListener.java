@@ -17,8 +17,11 @@ public class OrderAllocationListener {
 
     @JmsListener(destination = JmsConfig.ALLOCATE_ORDER_QUEUE)
     public void listen(AllocateOrderRequest request) {
+
+        Boolean allocationError = request.getBeerOrder().getCustomerRef().equals("allocation exception");
+
         jmsTemplate.convertAndSend(JmsConfig.ALLOCATE_ORDER_RESPONSE_QUEUE,
-                AllocateOrderResult.builder().beerOrder(request.getBeerOrder()).allocationError(false).pendingInventory(false)
+                AllocateOrderResult.builder().beerOrder(request.getBeerOrder()).allocationError(allocationError).pendingInventory(false)
                 .build());
     }
 }

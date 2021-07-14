@@ -11,10 +11,9 @@ import org.springframework.statemachine.action.Action;
 @Slf4j
 @RequiredArgsConstructor
 @Configuration
-public class ValidationFailureAction implements Action<BeerOrderStatusEnum, BeerOrderEventEnum> {
-
+public class AllocationFailureAction implements Action<BeerOrderStatusEnum, BeerOrderEventEnum> {
     @Override
     public void execute(StateContext<BeerOrderStatusEnum, BeerOrderEventEnum> stateContext) {
-        log.error("Validation Failed");
+        log.error("Allocation Failed");
     }
 }
