@@ -15,6 +15,9 @@ import com.maz.beer.order.service.services.beer.BeerServiceRestTemplate;
 import com.maz.brewery.model.BeerDto;
 import com.maz.brewery.model.BeerOrderDto;
 import com.maz.brewery.model.BeerPagedList;
+import org.apache.activemq.artemis.core.config.impl.ConfigurationImpl;
+import org.apache.activemq.artemis.core.server.ActiveMQServer;
+import org.apache.activemq.artemis.core.server.ActiveMQServers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -73,9 +76,22 @@ public class BeerOrderManagerImplIT {
         }
     }
 
+    @TestConfiguration
+    static class messagingConfiguration {
+        @Bean
+        public void config() throws Exception {
+            ActiveMQServer server = ActiveMQServers.newActiveMQServer(new ConfigurationImpl()
+                    .setPersistenceEnabled(false)
+                    .setJournalDatasync(false)
+                    .setSecurityEnabled(false)
+                    .addAcceptorConfiguration("invm", "vm://0"));
+            server.start();
+        }
+    }
+
     @BeforeEach
     void setUp() {
-        testCustomer = customerRepository.save(Customer.builder()
+        testCustomer = customerRepository.saveAndFlush(Customer.builder()
                 .customerName("Test Customer")
                 .build());
     }
@@ -120,7 +136,9 @@ public class BeerOrderManagerImplIT {
             assertEquals(BeerOrderStatusEnum.ALLOCATED, foundOrder.getOrderStatus());
         });
 
-        beerOrderManager.processOrderPickedUp(BeerOrderDto.builder().id(savedBeerOrder.getId()).build());
+
+
+        beerOrderManager.processOrderPickedUp(savedBeerOrder.getId());
 
         await().untilAsserted(() -> {
             BeerOrder foundOrder = beerOrderRepository.findById(savedBeerOrder.getId()).get();
@@ -134,16 +152,45 @@ public class BeerOrderManagerImplIT {
 
     }
 
+    @Test
+    void testFailedValidation() throws JsonProcessingException {
+
+        BeerDto beerDto = BeerDto.builder().upc("12345").build();
+
+        wireMockServer.stubFor(WireMock.get(BeerServiceRestTemplate.BEER_UPC_PATH + "12345")
+                .willReturn(okJson(objectMapper.writeValueAsString(beerDto))));
+
+        BeerOrder beerOrder = createBeerOrder();
+
+        beerOrder.setCustomerRef("validation exception");
+
+        BeerOrder savedBeerOrder = beerOrderManager.newBeerOrder(beerOrder);
+
+        await().untilAsserted(() -> {
+            BeerOrder foundOrder = beerOrderRepository.findById(savedBeerOrder.getId()).get();
+            assertEquals(BeerOrderStatusEnum.VALIDATION_EXCEPTION, foundOrder.getOrderStatus());
+        });
+
+        BeerOrder beerOrder1 = beerOrderRepository.findById(savedBeerOrder.getId()).get();
+
+        BeerOrderStatusEnum testStatus = beerOrder1.getOrderStatus();
+
+        assertEquals(BeerOrderStatusEnum.VALIDATION_EXCEPTION, testStatus);
+
+    }
+
+
     public BeerOrder createBeerOrder(){
         BeerOrder beerOrder = BeerOrder.builder()
                 .customer(testCustomer)
+                .customerRef("customer")
                 .build();
 
         Set<BeerOrderLine> lines = new HashSet<>();
         lines.add(BeerOrderLine.builder()
                 .beerId(beerId)
                 .upc("12345")
-                .orderQuantity(1)
+                .orderQuantity(8)
                 .beerOrder(beerOrder)
                 .build());
 

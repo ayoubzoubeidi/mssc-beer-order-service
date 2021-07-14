@@ -18,15 +18,14 @@ public class OrderValidationListener {
     @JmsListener(destination = JmsConfig.VALIDATE_ORDER_QUEUE)
     public void listenValidation(Message message) {
 
-        Boolean isValid = true;
-
         ValidateBeerOrderRequest request = (ValidateBeerOrderRequest) message.getPayload();
+
+        Boolean isValid = !request.getBeerOrder().getCustomerRef().equalsIgnoreCase("validation exception");
 
         OrderValidationResponse response = OrderValidationResponse
                 .builder()
                 .orderId(request.getBeerOrder().getId())
                 .isValid(isValid).build();
-        System.err.println(response + "TEST VALIDATION RESPONSE CREATION");
         jmsTemplate.convertAndSend(JmsConfig.VALIDATE_ORDER_RESPONSE_QUEUE ,response);
 
     }

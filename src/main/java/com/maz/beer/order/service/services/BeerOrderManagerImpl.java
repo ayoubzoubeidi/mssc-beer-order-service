@@ -6,6 +6,7 @@ import com.maz.beer.order.service.domain.BeerOrderStatusEnum;
 import com.maz.beer.order.service.repositories.BeerOrderRepository;
 import com.maz.brewery.model.BeerOrderDto;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
@@ -46,15 +47,16 @@ public class BeerOrderManagerImpl implements BeerOrderManager {
         return savedBeerOrder;
     }
 
+    @SneakyThrows
     @Transactional
     @Override
     public void processValidationResult(UUID beerOrderId, Boolean isValid) {
 
-
         Optional<BeerOrder> beerOrderOptional = beerOrderRepository.findById(beerOrderId);
 
         beerOrderOptional.ifPresentOrElse(beerOrder -> {
-            if(isValid){
+            if(isValid) {
+
                 sendBeerOrderEvent(beerOrder, BeerOrderEventEnum.VALIDATION_PASSED);
 
                 BeerOrder validatedOrder = beerOrderRepository.findById(beerOrderId).get();
@@ -94,10 +96,10 @@ public class BeerOrderManagerImpl implements BeerOrderManager {
 
     @Transactional
     @Override
-    public void processOrderPickedUp(BeerOrderDto beerOrderDto) {
-        beerOrderRepository.findById(beerOrderDto.getId()).ifPresentOrElse(beerOrder -> {
+    public void processOrderPickedUp(UUID beerOrderId) {
+        beerOrderRepository.findById(beerOrderId).ifPresentOrElse(beerOrder -> {
             sendBeerOrderEvent(beerOrder, BeerOrderEventEnum.PICKED_UP);
-        }, () -> log.error("Order Not Found. Id: " + beerOrderDto.getId()));
+        }, () -> log.error("Order Not Found. Id: " + beerOrderId));
     }
 
     private void sendBeerOrderEvent(BeerOrder beerOrder, BeerOrderEventEnum event) {
