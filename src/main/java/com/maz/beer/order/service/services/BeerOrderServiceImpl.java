@@ -4,7 +4,6 @@ package com.maz.beer.order.service.services;
 
 import com.maz.beer.order.service.domain.BeerOrder;
 import com.maz.beer.order.service.domain.Customer;
-import com.maz.beer.order.service.domain.BeerOrderStatusEnum;
 import com.maz.beer.order.service.repositories.BeerOrderRepository;
 import com.maz.beer.order.service.repositories.CustomerRepository;
 import com.maz.beer.order.service.web.mappers.BeerOrderMapper;
@@ -12,7 +11,6 @@ import com.maz.brewery.model.BeerOrderDto;
 import com.maz.brewery.model.BeerOrderPagedList;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

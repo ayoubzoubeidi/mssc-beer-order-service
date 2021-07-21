@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.jenspiegsa.wiremockextension.WireMockExtension;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
+import com.maz.beer.order.service.config.JmsConfig;
 import com.maz.beer.order.service.domain.BeerOrder;
 import com.maz.beer.order.service.domain.BeerOrderLine;
 import com.maz.beer.order.service.domain.BeerOrderStatusEnum;
@@ -13,8 +14,7 @@ import com.maz.beer.order.service.repositories.BeerOrderRepository;
 import com.maz.beer.order.service.repositories.CustomerRepository;
 import com.maz.beer.order.service.services.beer.BeerServiceRestTemplate;
 import com.maz.brewery.model.BeerDto;
-import com.maz.brewery.model.BeerOrderDto;
-import com.maz.brewery.model.BeerPagedList;
+import com.maz.brewery.model.events.AllocationFailureEvent;
 import org.apache.activemq.artemis.core.config.impl.ConfigurationImpl;
 import org.apache.activemq.artemis.core.server.ActiveMQServer;
 import org.apache.activemq.artemis.core.server.ActiveMQServers;
@@ -22,17 +22,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.jms.core.JmsTemplate;
 
-import org.springframework.transaction.annotation.Transactional;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
-import java.util.concurrent.Callable;
 
 import static com.github.jenspiegsa.wiremockextension.ManagedWireMockServer.with;
 import static com.github.tomakehurst.wiremock.client.WireMock.okJson;
@@ -47,6 +44,7 @@ import static org.jgroups.util.Util.assertNotNull;
 @ExtendWith(WireMockExtension.class)
 @SpringBootTest
 public class BeerOrderManagerImplIT {
+
     @Autowired
     BeerOrderManager beerOrderManager;
 
@@ -61,6 +59,9 @@ public class BeerOrderManagerImplIT {
 
     @Autowired
     WireMockServer wireMockServer;
+
+    @Autowired
+    JmsTemplate jmsTemplate;
 
     Customer testCustomer;
 
@@ -197,6 +198,12 @@ public class BeerOrderManagerImplIT {
             BeerOrder foundOrder = beerOrderRepository.findById(savedBeerOrder.getId()).get();
             assertEquals(BeerOrderStatusEnum.ALLOCATION_EXCEPTION, foundOrder.getOrderStatus());
         });
+
+
+        AllocationFailureEvent allocationFailureEvent =
+                (AllocationFailureEvent) jmsTemplate.receiveAndConvert(JmsConfig.ALLOCATE_FAILURE_QUEUE);
+
+        assertEquals(savedBeerOrder.getId(), allocationFailureEvent.getOrderId());
 
     }
 

@@ -3,7 +3,6 @@ package com.maz.beer.order.service.listeners;
 import com.maz.beer.order.service.config.JmsConfig;
 import com.maz.brewery.model.events.AllocateOrderRequest;
 import com.maz.brewery.model.events.AllocateOrderResult;
-import com.maz.brewery.model.events.OrderValidationResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.jms.core.JmsTemplate;
