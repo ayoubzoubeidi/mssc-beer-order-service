@@ -6,3 +6,10 @@ spring:
       discovery:
         enabled: true
         service-id: brewery-config
+      username: hello
+      password: password
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://netflix:eureka@localhost:8761/eureka
